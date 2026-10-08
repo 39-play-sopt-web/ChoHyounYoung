@@ -4,6 +4,9 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding-top: 64px;
   background: #f7f7f7;
   font-family: system-ui, sans-serif;
@@ -66,12 +69,25 @@ button, input, textarea, select {
 }
 
 .layout {
+  flex: 1;
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 36px 48px;
+  padding: 36px 48px 100px;
   display: flex;
   align-items: flex-start;
   gap: 50px;
+}
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  background: black;
+  color: white;
+  font-size: 20px;
 }
 
 .nav {
@@ -215,7 +231,7 @@ main {
 
 @media (max-width: 700px) {
   .layout {
-    padding: 24px 16px;
+    padding: 24px 16px 64px;
     flex-direction: column;
     gap: 24px;
   }
