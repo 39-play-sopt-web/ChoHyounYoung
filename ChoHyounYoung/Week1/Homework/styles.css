@@ -64,3 +64,66 @@ button, input, textarea, select {
   height: 37px;
   object-fit: contain;
 }
+
+.layout {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 36px 48px;
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.nav {
+  flex-shrink: 0;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid #d7d7d7;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.8);
+  color: black;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: #eeeeee;
+}
+
+.nav a:active {
+  background: #cccccc;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    padding: 24px 16px;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .nav {
+    width: 100%;
+    flex-direction: row;
+    border-radius: 16px;
+  }
+
+  .nav a {
+    flex: 1;
+    justify-content: center;
+    height: 48px;
+    padding: 0 4px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
