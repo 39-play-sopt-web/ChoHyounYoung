@@ -106,14 +106,18 @@ button, input, textarea, select {
 }
 
 main {
+  flex: 1;
+  width: 100%;
   min-width: 0;
 }
 
 .photo-section {
+  overflow-x: auto;
   scroll-margin-top: 100px;
 }
 
-.photo-section h2 {
+.photo-section h2,
+.interests-section h2 {
   margin: 0 0 5px;
   font-size: 24px;
   line-height: 29px;
@@ -194,5 +198,114 @@ main {
     padding: 0 4px;
     font-size: 12px;
     white-space: nowrap;
+  }
+}
+
+.interests-section {
+  margin-top: 50px;
+  scroll-margin-top: 100px;
+}
+
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 210px);
+  gap: 24px 20px;
+}
+
+.interest-card {
+  min-width: 0;
+  overflow: hidden;
+  padding-bottom: 12px;
+  background: white;
+  border: 1px solid #b1b1b1;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.interest-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.interest-thumbnail {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.interest-thumbnail.contain {
+  object-fit: contain;
+}
+
+.interest-card:first-child .interest-thumbnail {
+  object-position: center 65%;
+}
+
+.interest-card h3 {
+  margin: 12px 0;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.interest-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.interest-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.interest-buttons img {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+}
+
+.like-button {
+  background: #ffeded;
+}
+
+.like-button:hover,
+.like-button[aria-pressed="true"] {
+  background: #ffcdd2;
+}
+
+.dislike-button {
+  background: #e6fbff;
+}
+
+.dislike-button:hover,
+.dislike-button[aria-pressed="true"] {
+  background: #b8eaf3;
+}
+
+@media (max-width: 1425px) {
+  .interest-grid {
+    grid-template-columns: repeat(4, 210px);
+  }
+}
+
+@media (max-width: 1195px) {
+  .interest-grid {
+    grid-template-columns: repeat(3, 210px);
+  }
+}
+
+@media (max-width: 965px) {
+  .interest-grid {
+    grid-template-columns: repeat(2, 210px);
   }
 }
