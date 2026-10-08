@@ -128,7 +128,6 @@ main {
 }
 
 .photo-section {
-  overflow-x: auto;
   scroll-margin-top: 100px;
 }
 
@@ -177,12 +176,16 @@ main {
 
 .photo-grid {
   display: grid;
-  grid-template-columns: 295px 295px 205px 295px;
-  grid-template-rows: repeat(3, 190px);
+  grid-template-columns: minmax(0, 295fr) minmax(0, 295fr) minmax(0, 205fr) minmax(0, 295fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  aspect-ratio: 1135 / 600;
   gap: 15px;
 }
 
 .photo-frame {
+  min-width: 0;
+  min-height: 0;
   overflow: hidden;
   border-radius: 10px;
 }
