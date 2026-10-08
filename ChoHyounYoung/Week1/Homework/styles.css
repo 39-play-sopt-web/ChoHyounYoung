@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -137,6 +141,7 @@ main {
 }
 
 .photo-section h2,
+.travel-section h2,
 .interests-section h2,
 .letter-section h2 {
   margin: 0 0 5px;
@@ -315,7 +320,7 @@ main {
   padding: 0 8px;
 }
 
-.interest-buttons button {
+.interest-buttons label {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,7 +343,7 @@ main {
 }
 
 .like-button:hover,
-.like-button[aria-pressed="true"] {
+.reaction-input:checked + .like-button {
   background: #ffcdd2;
 }
 
@@ -347,7 +352,7 @@ main {
 }
 
 .dislike-button:hover,
-.dislike-button[aria-pressed="true"] {
+.reaction-input:checked + .dislike-button {
   background: #b8eaf3;
 }
 
@@ -366,5 +371,106 @@ main {
 @media (max-width: 965px) {
   .interest-grid {
     grid-template-columns: repeat(2, 210px);
+  }
+}
+
+.reaction-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.reaction-input:focus-visible + label {
+  outline: 2px solid #555;
+  outline-offset: 3px;
+}
+
+.travel-section {
+  margin-top: 50px;
+  scroll-margin-top: 100px;
+}
+
+.travel-gallery {
+  overflow: hidden;
+  scroll-snap-type: none;
+  scrollbar-width: none;
+}
+
+.travel-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.travel-gallery img {
+  flex: 0 0 295px;
+  width: 295px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 10px;
+  scroll-snap-align: start;
+}
+
+.travel-gallery:focus-visible {
+  outline: 2px solid #555;
+  outline-offset: 4px;
+}
+
+.travel-track {
+  display: flex;
+  width: max-content;
+}
+
+.travel-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 15px;
+  padding-right: 15px;
+}
+
+.travel-copy {
+  display: flex;
+}
+
+.travel-gallery:hover,
+.travel-gallery:focus-within {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.travel-gallery .travel-track {
+  animation: travel-loop 120s linear infinite;
+}
+
+.travel-gallery:hover .travel-track,
+.travel-gallery:focus-within .travel-track {
+  animation-play-state: paused;
+}
+
+@keyframes travel-loop {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .travel-gallery .travel-track {
+    animation: none;
+  }
+
+  .travel-gallery {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .travel-gallery .travel-copy {
+    display: none;
   }
 }
