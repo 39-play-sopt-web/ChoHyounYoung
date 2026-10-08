@@ -50,6 +50,11 @@ button, input, textarea, select {
   height: 40px;
   background: #ffeded;
   border-radius: 100px;
+  transition: box-shadow 0.3s ease;
+}
+
+.profile-circle:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .header h1 {
