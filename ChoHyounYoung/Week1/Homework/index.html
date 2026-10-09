@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>조현영</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <div class="profile-circle" aria-hidden="true"></div>
+        <h1>조현영</h1>
+        <a href="https://github.com/hycho04" aria-label="조현영 GitHub 프로필">
+          <img class="github-icon" src="images/github.png" alt="GitHub" />
+        </a>
+      </div>
+    </header>
+    <div class="layout">
+      <nav class="nav" aria-label="자기소개 메뉴">
+        <a href="#photo-dump">포토 덤프</a>
+        <a href="#travel">좋아하는 것</a>
+        <a href="#interests">내 관심사</a>
+        <a href="#letter">To. 웹토리</a>
+      </nav>
+      <main>
+        <section id="photo-dump" class="photo-section">
+          <h2>포토 덤프</h2>
+          <div class="photo-grid">
+            <div class="photo-frame photo-1">
+              <img src="images/surri1.png" alt="이불에 기대어 있는 설이" />
+            </div>
+            <div class="photo-frame photo-2">
+              <img src="images/surri3.png" alt="산책 중 올려다보는 설이" />
+            </div>
+            <div class="photo-frame photo-3">
+              <img src="images/surri2.png" alt="고개를 갸웃하는 설이" />
+            </div>
+            <div class="photo-frame photo-4">
+              <img src="images/surri4.png" alt="간식을 먹는 설이" />
+            </div>
+            <div class="photo-frame photo-5">
+              <img src="images/surri5.png" alt="산책하며 웃는 설이" />
+            </div>
+            <div class="photo-frame photo-6">
+              <img src="images/surri6.png" alt="꽃 향기를 맡는 설이" />
+            </div>
+          </div>
+        </section>
+        <section id="travel" class="travel-section">
+          <h2>좋아하는 것 : 여행</h2>
+          <div class="travel-gallery" tabindex="0" role="region" aria-label="자동으로 흐르는 여행 사진첩">
+            <div class="travel-track">
+              <div class="travel-group">
+                <img src="images/travel1.jpeg" alt="여행 사진 1" loading="lazy" />
+                <img src="images/travel2.jpeg" alt="여행 사진 2" loading="lazy" />
+                <img src="images/travel3.jpeg" alt="여행 사진 3" loading="lazy" />
+                <img src="images/travel4.jpeg" alt="여행 사진 4" loading="lazy" />
+                <img src="images/travel5.jpeg" alt="여행 사진 5" loading="lazy" />
+                <img src="images/travel6.jpeg" alt="여행 사진 6" loading="lazy" />
+                <img src="images/travel7.jpeg" alt="여행 사진 7" loading="lazy" />
+                <img src="images/travel8.jpeg" alt="여행 사진 8" loading="lazy" />
+                <img src="images/travel9.jpeg" alt="여행 사진 9" loading="lazy" />
+                <img src="images/travel10.jpeg" alt="여행 사진 10" loading="lazy" />
+              </div>
+              <div class="travel-group travel-copy" aria-hidden="true">
+                <img src="images/travel1.jpeg" alt="" loading="lazy" />
+                <img src="images/travel2.jpeg" alt="" loading="lazy" />
+                <img src="images/travel3.jpeg" alt="" loading="lazy" />
+                <img src="images/travel4.jpeg" alt="" loading="lazy" />
+                <img src="images/travel5.jpeg" alt="" loading="lazy" />
+                <img src="images/travel6.jpeg" alt="" loading="lazy" />
+                <img src="images/travel7.jpeg" alt="" loading="lazy" />
+                <img src="images/travel8.jpeg" alt="" loading="lazy" />
+                <img src="images/travel9.jpeg" alt="" loading="lazy" />
+                <img src="images/travel10.jpeg" alt="" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="interests" class="interests-section">
+          <h2>내 관심사</h2>
+          <div class="interest-grid">
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests1.jpeg" alt="여행" loading="lazy" />
+              <h3>여행</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-1-like" name="interest-1" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-1-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-1-dislike" name="interest-1" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-1-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests2.jpeg" alt="피크닉" loading="lazy" />
+              <h3>피크닉</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-2-like" name="interest-2" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-2-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-2-dislike" name="interest-2" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-2-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests3.jpeg" alt="포켓몬" loading="lazy" />
+              <h3>포켓몬</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-3-like" name="interest-3" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-3-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-3-dislike" name="interest-3" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-3-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail contain" src="images/interests4.jpeg" alt="포짓" loading="lazy" />
+              <h3>포짓</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-4-like" name="interest-4" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-4-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-4-dislike" name="interest-4" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-4-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests5.jpeg" alt="요리" loading="lazy" />
+              <h3>요리</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-5-like" name="interest-5" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-5-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-5-dislike" name="interest-5" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-5-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests6.jpeg" alt="꽃" loading="lazy" />
+              <h3>꽃</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-6-like" name="interest-6" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-6-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-6-dislike" name="interest-6" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-6-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+            <article class="interest-card">
+              <img class="interest-thumbnail" src="images/interests7.jpeg" alt="무화과" loading="lazy" />
+              <h3>무화과</h3>
+              <div class="interest-buttons">
+                <input class="reaction-input" type="radio" id="interest-7-like" name="interest-7" value="like" aria-label="좋아요" />
+                <label class="like-button" for="interest-7-like">
+                  <img src="images/thumbs-up.png" alt="" />
+                </label>
+                <input class="reaction-input" type="radio" id="interest-7-dislike" name="interest-7" value="dislike" aria-label="싫어요" />
+                <label class="dislike-button" for="interest-7-dislike">
+                  <img src="images/thumbs-down.png" alt="" />
+                </label>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="letter" class="letter-section">
+          <h2>To. 웹토리</h2>
+          <div class="letter-box">
+            <p class="letter-message">잘 부탁드립니다!</p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer class="footer">자기소개 끝</footer>
+  </body>
+</html>
