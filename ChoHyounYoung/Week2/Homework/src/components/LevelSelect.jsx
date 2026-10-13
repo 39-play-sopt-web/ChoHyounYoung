@@ -1,12 +1,14 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { DEFAULT_LEVEL, LEVEL_OPTIONS } from '../constants/game.js';
 
-const LEVELS = ['Level 1 (3×3)', 'Level 2 (4×4)', 'Level 3 (5×5)'];
+const LEVELS = LEVEL_OPTIONS.map((option) => option.label);
 
 export default function LevelSelect() {
   // selectedIndex는 확정된 레벨, activeIndex는 마우스나 방향키로 가리키는 후보이다.
   // 후보 이동만으로 선택값이 바뀌지 않도록 두 상태를 분리한다.
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const defaultIndex = LEVEL_OPTIONS.findIndex((option) => option.value === DEFAULT_LEVEL);
+  const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
+  const [activeIndex, setActiveIndex] = useState(defaultIndex);
   const [isOpen, setIsOpen] = useState(false);
   // ref로 실제 DOM에 접근한다. 컨테이너는 바깥 클릭 판별, 버튼은 포커스 복귀에 사용한다.
   const containerRef = useRef(null);
