@@ -8,7 +8,7 @@ import { NavLink, useLocation } from 'react-router-dom';
  * 기본 간격 단위는 0.25rem: 보통 h-10은 40px, w-20은 80px, px-4는 좌우 16px씩이다.
  * 모든 숫자가 이 단위는 아니다. grid-cols-3은 열 개수이고 border-2는 2px이다.
  */
-function Header({ time = 0 }) {
+function Header({ time = 0, level, onLevelChange }) {
   // URL을 기준으로 메뉴를 표시하면 새로고침과 뒤로 가기에도 상태가 맞는다.
   // 메뉴를 별도 state로 저장하면 /ranking에서 새로고침할 때 기본값 game으로 돌아갈 수 있다.
   const { pathname } = useLocation();
@@ -54,7 +54,7 @@ function Header({ time = 0 }) {
       {/* 조건 && JSX: 게임 경로일 때만 렌더링한다. 오른쪽 칸이 비어도 nav는 중앙에 남는다. */}
       {isGamePage && (
         <div className="flex items-center justify-self-end gap-4">
-          <LevelSelect />
+          <LevelSelect level={level} onLevelChange={onLevelChange} />
 
           {/* h-10으로 메뉴와 높이를 맞추고, shrink-0과 nowrap으로 숫자 줄바꿈을 막는다.
               전체 Header의 작은 화면 배치는 별도 반응형 처리가 필요하다. */}
