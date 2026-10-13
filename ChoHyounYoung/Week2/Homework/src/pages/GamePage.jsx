@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import GameModal from '../components/GameModal.jsx';
 import NumberTile from '../components/NumberTile.jsx';
 import { GAME_LEVELS, RANKING_STORAGE_KEY } from '../constants/game.js';
 import { shuffle } from '../utils/shuffle.js';
@@ -8,7 +9,7 @@ export default function GamePage({ level, onTimeChange }) {
   // App에서 전달받은 레벨의 규칙으로 숫자 범위와 grid 크기를 결정한다.
   const rule = GAME_LEVELS[level];
   // 초기 배치와 후반 숫자 순서를 각각 섞어 초기화한다.
-  const [game, setGame] = useState(() => ({
+  const createInitialGame = () => ({
     numbers: shuffle(Array.from({ length: rule.tileCount }, (_, index) => rule.firstNumber + index)),
     replacements: shuffle(Array.from(
       { length: rule.lastNumber - rule.initialMaxNumber },
@@ -16,7 +17,8 @@ export default function GamePage({ level, onTimeChange }) {
     )),
     replacementIndex: 0,
     nextNumber: rule.firstNumber,
-  }));
+  });
+  const [game, setGame] = useState(createInitialGame);
   // 빠른 연속 클릭에서도 다음 렌더링을 기다리지 않고 최신 진행 상태를 확인한다.
   const gameRef = useRef(game);
   const { numbers, nextNumber } = game;
@@ -25,6 +27,22 @@ export default function GamePage({ level, onTimeChange }) {
   const frameRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [storageError, setStorageError] = useState(false);
+  const [resultTime, setResultTime] = useState(null);
+  const [round, setRound] = useState(0);
+
+  // 확인 후 같은 레벨로 초기화한다. 이미 저장된 랭킹 기록은 유지한다.
+  const resetGame = () => {
+    cancelAnimationFrame(frameRef.current);
+    setIsRunning(false);
+    startTimeRef.current = null;
+    const initialGame = createInitialGame();
+    gameRef.current = initialGame;
+    setGame(initialGame);
+    setResultTime(null);
+    setStorageError(false);
+    setRound((value) => value + 1);
+    onTimeChange(0);
+  };
 
   // 시작 시각과 현재 시각의 차이를 측정해 렌더링 지연에 따른 오차를 줄인다.
   useEffect(() => {
@@ -58,6 +76,7 @@ export default function GamePage({ level, onTimeChange }) {
       cancelAnimationFrame(frameRef.current);
       setIsRunning(false);
       onTimeChange(elapsed);
+      setResultTime(elapsed);
 
       // 종료 이벤트에서 한 번만 저장한다. 기존 기록은 유지하고 새 기록을 추가한다.
       const stored = getStorage(RANKING_STORAGE_KEY, []);
@@ -66,7 +85,7 @@ export default function GamePage({ level, onTimeChange }) {
       setStorageError(!setStorage(RANKING_STORAGE_KEY, [...records, record]));
     }
 
-    // 앞 절반을 맞히면 후반 숫자로 교체한다. 후반 숫자는 그대로 남겨 완료 색상을 표시한다.
+    // 앞 절반은 후반 숫자로 교체하고, 후반 숫자를 맞힌 칸은 렌더링 시 빈 칸으로 표시한다.
     const shouldReplace = number <= rule.initialMaxNumber;
     const updated = {
       ...current,
@@ -100,6 +119,7 @@ export default function GamePage({ level, onTimeChange }) {
 
         {/* 보드 크기는 최대 460px. 행과 열을 같은 개수로 나눠 타일을 정사각형으로 만든다. */}
         <div
+          key={round}
           className="grid aspect-square w-full max-w-[460px] gap-3"
           style={{
             gridTemplateColumns: `repeat(${rule.gridSize}, minmax(0, 1fr))`,
@@ -107,17 +127,27 @@ export default function GamePage({ level, onTimeChange }) {
           }}
         >
           {numbers.map((number, index) => (
-            // 칸을 key로 사용해 숫자가 교체돼도 클릭 효과가 유지되도록 한다.
-            <NumberTile
-              key={index}
-              number={number}
-              completed={number < nextNumber}
-              disabled={number < nextNumber || isFinished}
-              onClick={() => handleNumberClick(index)}
-            />
+            // 빈 칸을 남겨 다른 숫자의 위치가 당겨지지 않게 한다.
+            number < nextNumber ? (
+              <div key={index} aria-hidden="true" className="rounded-xl border border-slate-200" />
+            ) : (
+              <NumberTile
+                key={index}
+                number={number}
+                disabled={isFinished}
+                onClick={() => handleNumberClick(index)}
+              />
+            )
           ))}
         </div>
       </main>
+      <GameModal
+        open={resultTime !== null}
+        onClose={resetGame}
+        levelLabel={rule.label}
+        playTime={resultTime ?? 0}
+        storageError={storageError}
+      />
     </div>
   );
 }
