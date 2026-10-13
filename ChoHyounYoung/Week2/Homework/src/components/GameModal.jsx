@@ -33,21 +33,21 @@ export default function GameModal({ open = false, onClose, levelLabel, playTime,
         event.preventDefault();
         onClose();
       }}
-      className="fixed inset-0 m-auto w-[calc(100%-32px)] max-w-sm rounded-2xl border-0 bg-white p-8 text-center text-slate-900 shadow-xl backdrop:bg-black/40"
+      className="fixed inset-0 m-auto w-[calc(100%-32px)] max-w-sm rounded-2xl border-0 bg-surface p-8 text-center text-ink shadow-xl backdrop:bg-overlay/40"
     >
-      <h2 id={titleId} className="text-2xl font-bold">게임 완료!</h2>
-      <p className="mt-3 text-sm text-slate-500">{levelLabel}</p>
-      <p id={descriptionId} className="mt-2 text-3xl font-bold text-emerald-700">
+      <h2 id={titleId} className="text-heading font-bold">게임 완료!</h2>
+      <p className="mt-3 text-caption text-muted">{levelLabel}</p>
+      <p id={descriptionId} className="mt-2 text-number font-bold text-primary">
         {playTime.toFixed(2)}초
       </p>
       {storageError && (
-        <p role="alert" className="mt-4 text-sm text-red-600">기록을 저장하지 못했어요.</p>
+        <p role="alert" className="mt-4 text-caption text-danger">기록을 저장하지 못했어요.</p>
       )}
       <button
         type="button"
         autoFocus
         onClick={onClose}
-        className="mt-6 h-11 w-full rounded-lg bg-emerald-200 font-semibold transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        className="mt-6 h-11 w-full rounded-lg bg-accent font-semibold transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-focus"
       >
         확인
       </button>

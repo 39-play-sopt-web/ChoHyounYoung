@@ -17,7 +17,7 @@ function Header({ time = 0, level, onLevelChange }) {
 
   return (
     <header className="grid h-16 grid-cols-3 items-center px-8">
-      <h1 className="justify-self-start text-lg font-bold">
+      <h1 className="justify-self-start text-subtitle font-bold">
         🔢 숫자 클릭 게임
       </h1>
 
@@ -29,25 +29,22 @@ function Header({ time = 0, level, onLevelChange }) {
             배경은 장식이므로 aria-hidden과 pointer-events-none을 적용한다. */}
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute left-0 top-0 h-10 w-20 rounded-md bg-emerald-200 transition-transform duration-300 ease-in-out motion-reduce:transition-none ${isRankingPage ? 'translate-x-full' : 'translate-x-0'}`}
+          className={`pointer-events-none absolute left-0 top-0 h-10 w-20 rounded-md bg-accent transition-transform duration-300 ease-in-out motion-reduce:transition-none ${isRankingPage ? 'translate-x-full' : 'translate-x-0'}`}
         />
         <ul className="relative flex">
-          <li>
-            <NavLink
-              to="/game"
-              className="inline-flex h-10 w-20 items-center justify-center rounded-md transition-colors duration-200 hover:text-emerald-700 motion-reduce:transition-none"
-            >
-              게임
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/ranking"
-              className="inline-flex h-10 w-20 items-center justify-center rounded-md transition-colors duration-200 hover:text-emerald-700 motion-reduce:transition-none"
-            >
-              랭킹
-            </NavLink>
-          </li>
+          {[
+            { path: '/game', label: '게임' },
+            { path: '/ranking', label: '랭킹' },
+          ].map(({ path, label }) => (
+            <li key={path}>
+              <NavLink
+                to={path}
+                className="inline-flex h-10 w-20 items-center justify-center rounded-md transition-colors duration-200 hover:text-primary motion-reduce:transition-none"
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 
@@ -59,8 +56,8 @@ function Header({ time = 0, level, onLevelChange }) {
           {/* tabular-nums는 숫자마다 같은 너비를 사용한다. w-28로 박스 너비도 고정해 떨림을 막는다.
               h-10으로 메뉴와 높이를 맞추고, shrink-0과 nowrap으로 숫자 줄바꿈을 막는다.
               전체 Header의 작은 화면 배치는 별도 반응형 처리가 필요하다. */}
-          <span className="inline-flex h-10 w-28 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-emerald-200 px-2 font-bold tabular-nums">
-            {/* 소수점 두 자리로 표시한다. 실제 시간 측정 로직은 아직 연결하지 않았다. */}
+          <span className="inline-flex h-10 w-28 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-accent px-2 font-bold tabular-nums">
+            {/* 소수점 두 자리로 표시한다. App에서 전달받은 시간을 표시한다. */}
             {time.toFixed(2)}초
           </span>
         </div>

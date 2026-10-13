@@ -1,28 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import GameModal from '../components/GameModal.jsx';
 import NumberTile from '../components/NumberTile.jsx';
-import { GAME_LEVELS, RANKING_STORAGE_KEY } from '../constants/game.js';
-import { shuffle } from '../utils/shuffle.js';
-import { getStorage, setStorage } from '../utils/storage.js';
+import { GAME_LEVELS } from '../constants/game.js';
+import { advanceGame, createInitialGame } from '../utils/game.js';
+import { saveRankingRecord } from '../utils/ranking.js';
 
 export default function GamePage({ level, onTimeChange }) {
   // App에서 전달받은 레벨의 규칙으로 숫자 범위와 grid 크기를 결정한다.
   const rule = GAME_LEVELS[level];
-  // 초기 배치와 후반 숫자 순서를 각각 섞어 초기화한다.
-  const createInitialGame = () => ({
-    numbers: shuffle(Array.from({ length: rule.tileCount }, (_, index) => rule.firstNumber + index)),
-    replacements: shuffle(Array.from(
-      { length: rule.lastNumber - rule.initialMaxNumber },
-      (_, index) => rule.initialMaxNumber + 1 + index,
-    )),
-    replacementIndex: 0,
-    nextNumber: rule.firstNumber,
-  });
-  const [game, setGame] = useState(createInitialGame);
+  // useState 초기화 함수는 일반적인 재렌더링에서는 다시 실행되지 않는다.
+  const [game, setGame] = useState(() => createInitialGame(rule));
   // 빠른 연속 클릭에서도 다음 렌더링을 기다리지 않고 최신 진행 상태를 확인한다.
   const gameRef = useRef(game);
   const { numbers, nextNumber } = game;
   const isFinished = nextNumber > rule.lastNumber;
+  // 마지막 클릭 후에도 진행 표시가 18/18처럼 남도록 표시값만 제한한다.
+  const displayedNumber = Math.min(nextNumber, rule.lastNumber);
   const startTimeRef = useRef(null);
   const frameRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -35,7 +28,7 @@ export default function GamePage({ level, onTimeChange }) {
     cancelAnimationFrame(frameRef.current);
     setIsRunning(false);
     startTimeRef.current = null;
-    const initialGame = createInitialGame();
+    const initialGame = createInitialGame(rule);
     gameRef.current = initialGame;
     setGame(initialGame);
     setResultTime(null);
@@ -48,7 +41,7 @@ export default function GamePage({ level, onTimeChange }) {
   useEffect(() => {
     if (!isRunning) return;
     const updateTime = () => {
-      onTimeChange((performance.now() - startTimeRef.current) / 1000);
+      onTimeChange(Math.floor((performance.now() - startTimeRef.current) / 10) / 100);
       frameRef.current = requestAnimationFrame(updateTime);
     };
     frameRef.current = requestAnimationFrame(updateTime);
@@ -64,7 +57,9 @@ export default function GamePage({ level, onTimeChange }) {
   const handleNumberClick = (index) => {
     const current = gameRef.current;
     const number = current.numbers[index];
-    if (number !== current.nextNumber) return false;
+    const updated = advanceGame(current, index, rule);
+    if (updated === current) return false;
+    gameRef.current = updated;
 
     if (number === rule.firstNumber) {
       startTimeRef.current = performance.now();
@@ -79,43 +74,24 @@ export default function GamePage({ level, onTimeChange }) {
       setResultTime(elapsed);
 
       // 종료 이벤트에서 한 번만 저장한다. 기존 기록은 유지하고 새 기록을 추가한다.
-      const stored = getStorage(RANKING_STORAGE_KEY, []);
-      const records = Array.isArray(stored) ? stored : [];
       const record = { playedAt: new Date().toISOString(), level, playTime: elapsed };
-      setStorageError(!setStorage(RANKING_STORAGE_KEY, [...records, record]));
+      setStorageError(!saveRankingRecord(record));
     }
 
-    // 앞 절반은 후반 숫자로 교체하고, 후반 숫자를 맞힌 칸은 렌더링 시 빈 칸으로 표시한다.
-    const shouldReplace = number <= rule.initialMaxNumber;
-    const updated = {
-      ...current,
-      numbers: shouldReplace
-        ? current.numbers.map((value, tileIndex) => (
-          tileIndex === index ? current.replacements[current.replacementIndex] : value
-        ))
-        : current.numbers,
-      replacementIndex: current.replacementIndex + (shouldReplace ? 1 : 0),
-      nextNumber: current.nextNumber + 1,
-    };
-    gameRef.current = updated;
     setGame(updated);
     return true;
   };
 
   return (
-    <div className="min-h-[calc(100dvh-64px)] bg-[#F0FAF7] text-slate-900">
+    <div className="min-h-[calc(100dvh-64px)] bg-page text-ink">
       <main className="mx-auto flex w-full max-w-xl flex-col items-center px-4 py-12 sm:py-16">
         <h2 className="sr-only">숫자 클릭 게임</h2>
 
         <div className="mb-6 flex min-h-9 items-center gap-3" aria-live="polite">
-          <span className="text-slate-500">다음 숫자</span>
-          <strong className="text-3xl font-bold text-emerald-900">{Math.min(nextNumber, rule.lastNumber)}</strong>
-          <span className="text-sm text-slate-500">({Math.min(nextNumber, rule.lastNumber)} / {rule.lastNumber})</span>
+          <span className="text-muted">다음 숫자</span>
+          <strong className="text-number font-bold text-accent-ink">{displayedNumber}</strong>
+          <span className="text-caption text-muted">({displayedNumber} / {rule.lastNumber})</span>
         </div>
-
-        {storageError && (
-          <p role="alert" className="mb-4 text-sm text-red-600">기록을 저장하지 못했어요. 브라우저 저장 공간을 확인해주세요.</p>
-        )}
 
         {/* 보드 크기는 최대 460px. 행과 열을 같은 개수로 나눠 타일을 정사각형으로 만든다. */}
         <div
@@ -129,7 +105,7 @@ export default function GamePage({ level, onTimeChange }) {
           {numbers.map((number, index) => (
             // 빈 칸을 남겨 다른 숫자의 위치가 당겨지지 않게 한다.
             number < nextNumber ? (
-              <div key={index} aria-hidden="true" className="rounded-xl border border-slate-200" />
+              <div key={index} aria-hidden="true" className="rounded-xl border border-line" />
             ) : (
               <NumberTile
                 key={index}
