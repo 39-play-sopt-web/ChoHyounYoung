@@ -56,9 +56,10 @@ function Header({ time = 0, level, onLevelChange }) {
         <div className="flex items-center justify-self-end gap-4">
           <LevelSelect level={level} onLevelChange={onLevelChange} />
 
-          {/* h-10으로 메뉴와 높이를 맞추고, shrink-0과 nowrap으로 숫자 줄바꿈을 막는다.
+          {/* tabular-nums는 숫자마다 같은 너비를 사용한다. w-28로 박스 너비도 고정해 떨림을 막는다.
+              h-10으로 메뉴와 높이를 맞추고, shrink-0과 nowrap으로 숫자 줄바꿈을 막는다.
               전체 Header의 작은 화면 배치는 별도 반응형 처리가 필요하다. */}
-          <span className="inline-flex h-10 shrink-0 items-center whitespace-nowrap rounded-md bg-emerald-200 px-4 font-bold">
+          <span className="inline-flex h-10 w-28 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-emerald-200 px-2 font-bold tabular-nums">
             {/* 소수점 두 자리로 표시한다. 실제 시간 측정 로직은 아직 연결하지 않았다. */}
             {time.toFixed(2)}초
           </span>
