@@ -16,7 +16,7 @@ function Header({ time = 0 }) {
   const isRankingPage = pathname === '/ranking';
 
   return (
-    <header className="grid h-16 grid-cols-3 items-center border-b px-8">
+    <header className="grid h-16 grid-cols-3 items-center px-8">
       <h1 className="justify-self-start text-lg font-bold">
         🔢 숫자 클릭 게임
       </h1>
