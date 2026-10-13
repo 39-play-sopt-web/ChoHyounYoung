@@ -35,7 +35,7 @@ function Header({ time = 0 }) {
           <li>
             <NavLink
               to="/game"
-              className="inline-flex h-10 w-20 items-center justify-center rounded-md"
+              className="inline-flex h-10 w-20 items-center justify-center rounded-md transition-colors duration-200 hover:text-emerald-700 motion-reduce:transition-none"
             >
               게임
             </NavLink>
@@ -43,7 +43,7 @@ function Header({ time = 0 }) {
           <li>
             <NavLink
               to="/ranking"
-              className="inline-flex h-10 w-20 items-center justify-center rounded-md"
+              className="inline-flex h-10 w-20 items-center justify-center rounded-md transition-colors duration-200 hover:text-emerald-700 motion-reduce:transition-none"
             >
               랭킹
             </NavLink>
