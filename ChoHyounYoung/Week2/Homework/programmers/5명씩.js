@@ -5,8 +5,3 @@ function solution(names) {
   const answer = names.filter((name, index) => index % 5 === 0);
   return answer;
 }
-
-const names = ['nami', 'ahri', 'jayce', 'garen', 'ivern', 'vex', 'jinx'];
-
-// solution(names)로 함수를 실행하고, 반환된 배열을 콘솔에 출력한다.
-console.log(solution(names));
