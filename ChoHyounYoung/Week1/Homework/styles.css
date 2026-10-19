@@ -463,7 +463,13 @@ main {
 
 .travel-gallery:hover .travel-track,
 .travel-gallery:focus-within .travel-track {
-  animation-play-state: paused;
+  animation: none;
+  transform: none;
+}
+
+.travel-gallery:hover .travel-copy,
+.travel-gallery:focus-within .travel-copy {
+  display: none;
 }
 
 @keyframes travel-loop {
