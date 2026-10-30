@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StarSelect from '../components/starselect';
 import MovieCard from '../components/moviecard';
 
@@ -23,6 +24,7 @@ const previewMovies = Array.from({ length: 10 }, (_, index) => ({
 }));
 
 function MainPage() {
+  const navigate = useNavigate();
   // 현재 선택한 필터를 저장. 처음에는 첫 번째 항목인 '전체'가 선택됨
   const [selectedFilter, setSelectedFilter] = useState<
     (typeof ratingFilters)[number]
@@ -37,13 +39,11 @@ function MainPage() {
   return (
     // 화면 너비에 맞게 줄어들고, 최대 1044px까지만 넓어지는 가운데 정렬
     // mx-auto: 좌우 여백 자동 / w-full: 너비 100% / px-5: 좌우 내부 여백 20px
-    <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10">
-      <h1 className="text-2xl font-extrabold text-text-primary">
-        영화 둘러보기
-      </h1>
-      {/* flex: 버튼을 가로로 배치 / flex-wrap: 공간이 부족하면 다음 줄로 / gap-2: 간격 8px */}
+    <main className="mx-auto w-full max-w-[1044px] px-5 pt-[32px] pb-10">
+      <h1 className="text-2xl font-bold text-text-primary">영화 둘러보기</h1>
+      {/* flex: 버튼을 가로로 배치 / flex-wrap: 공간이 부족하면 다음 줄로 / gap-[9px]: 간격 9px */}
       <div
-        className="mt-6 flex flex-wrap gap-2"
+        className="mt-[25px] flex flex-wrap gap-[9px]"
         role="group"
         aria-label="영화 평점 필터"
       >
@@ -67,10 +67,10 @@ function MainPage() {
         sm:grid-cols-3: 화면 너비 640px 이상이면 3열
         md:grid-cols-4: 화면 너비 768px 이상이면 4열
         lg:grid-cols-5: 화면 너비 1024px 이상이면 5열
-        gap-x-5: 열 사이 간격 20px / gap-y-9: 행 사이 간격 36px
-        items-start: 카드 높이가 달라도 위쪽에 맞춰 배치 / mt-7: 위 여백 28px
+        gap-x-[22px]: 열 사이 간격 22px / gap-y-[23px]: 행 사이 간격 23px
+        items-start: 카드 높이가 달라도 위쪽에 맞춰 배치 / mt-[25px]: 위 여백 25px
       */}
-      <div className="mt-7 grid grid-cols-2 items-start gap-x-5 gap-y-9 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <div className="mt-[25px] grid grid-cols-2 items-start gap-x-[22px] gap-y-[23px] sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {/* 필터링된 영화마다 MovieCard 하나를 만들고, 영화 정보를 props로 전달 */}
         {movies.map((movie) => (
           <MovieCard
@@ -82,6 +82,8 @@ function MainPage() {
             rating={movie.rating}
             // 이미지 주소가 있으면 포스터 표시, null이면 '포스터 없음' 표시
             posterUrl={movie.posterUrl}
+            // 카드의 영화 ID를 URL에 넣어 해당 상세 페이지로 이동
+            onClick={() => navigate(`/movies/${movie.id}`)}
           />
         ))}
       </div>
