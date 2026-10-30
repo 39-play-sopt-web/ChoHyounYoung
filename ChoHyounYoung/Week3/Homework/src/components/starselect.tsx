@@ -3,25 +3,23 @@ type StarSelectProps = {
   // 버튼에 표시할 문구 (예: '전체', '9점 이상')
   label: string;
   onClick: () => void;
-  variant?: 'default' | 'accent';
   isSelected?: boolean;
 };
 
-// 구조 분해 할당으로 props를 꺼냄. variant를 생략하면 'default' 사용
+// 구조 분해 할당으로 props를 꺼냄. 선택 여부를 생략하면 false 사용
 function StarSelect({
   label,
   onClick,
-  variant = 'default',
-  isSelected,
+  isSelected = false,
 }: StarSelectProps) {
   return (
     <button
       type="button" // form 안에서도 제출 버튼으로 동작하지 않도록 설정
       onClick={onClick} // 클릭하면 부모에서 전달한 함수를 실행
       aria-pressed={isSelected} // 접근성: 버튼이 선택된 상태인지 알려줌
-      // 공통 스타일 뒤에 variant에 따른 색상 클래스를 추가
-      className={`flex h-7 shrink-0 items-center justify-center overflow-hidden rounded-[30px] px-3 font-['Inter',sans-serif] text-xs leading-4 font-medium transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-        variant === 'accent'
+      // 공통 스타일 뒤에 선택 여부에 따른 색상 클래스를 추가
+      className={`flex h-7 shrink-0 items-center justify-center overflow-hidden rounded-[30px] px-3 text-center font-['Inter',sans-serif] text-xs leading-4 font-medium transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        isSelected
           ? 'bg-accent text-black'
           : 'bg-border text-text-secondary'
       }`}
@@ -42,6 +40,7 @@ shrink-0: 공간이 부족해도 버튼이 줄어들지 않도록 설정
 items-center: 세로 가운데 정렬
 justify-center: 가로 가운데 정렬
 px-3: 좌우 안쪽 여백 12px
+text-center: 글자 가운데 정렬
 
 [모양]
 overflow-hidden: 버튼 밖으로 넘치는 내용을 숨김
@@ -62,8 +61,8 @@ focus-visible:outline-2: 키보드로 포커스할 때 2px 외곽선 표시
 focus-visible:outline-offset-2: 외곽선을 버튼에서 2px 떨어뜨려 표시
 focus-visible:outline-accent: 외곽선에 공통 포인트 색상 적용
 
-[variant에 따른 색상]
-variant가 'accent'일 때:
+[선택 여부에 따른 색상]
+isSelected가 true일 때:
   bg-accent: 민트색 배경 (#99FAEE)
   text-black: 검정 글자
 그 외에는:
