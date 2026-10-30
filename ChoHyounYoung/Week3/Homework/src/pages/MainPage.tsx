@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import StarSelect from '../components/starselect'
-import MovieCard from '../components/moviecard'
+import { useState } from 'react';
+import StarSelect from '../components/starselect';
+import MovieCard from '../components/moviecard';
 
 const ratingFilters = [
   { id: 'all', label: '전체', min: 0, max: 10 },
@@ -9,34 +9,44 @@ const ratingFilters = [
   { id: '7', label: '7 ~ 8점', min: 7, max: 8 },
   { id: '6', label: '6 ~ 7점', min: 6, max: 7 },
   { id: 'under6', label: '6점 미만', min: 0, max: 6 },
-] as const
+] as const;
 
 // API 연결 전 카드 배치를 확인하기 위한 예시 데이터
 const previewMovies = Array.from({ length: 10 }, (_, index) => ({
   id: index + 1,
   title: '레지던트 이블: 0번째 밤',
   releaseDate: '2026년 9월 16일',
-  overview: '의료 택배 기사 브라이언은 긴급 배달을 맡아 심야에 라쿤 시티 종합 병원으로 향한다. 눈밭을 헤치며 가던 중 갑자기 차로 뛰어든 누군가를 만나는데...',
+  overview:
+    '의료 택배 기사 브라이언은 긴급 배달을 맡아 심야에 라쿤 시티 종합 병원으로 향한다. 눈밭을 헤치며 가던 중 갑자기 차로 뛰어든 누군가를 만나는데...',
   rating: 7.3,
   posterUrl: null,
-}))
+}));
 
 function MainPage() {
   // 현재 선택한 필터를 저장. 처음에는 첫 번째 항목인 '전체'가 선택됨
-  const [selectedFilter, setSelectedFilter] = useState<(typeof ratingFilters)[number]>(ratingFilters[0])
-  // 선택한 평점 범위에 맞는 영화만 남김 (예: 8 ~ 9점은 8 이상, 9 미만)
-  const movies = previewMovies.filter(({ rating }) =>
-    rating >= selectedFilter.min &&
-    (selectedFilter.max === 10 ? rating <= 10 : rating < selectedFilter.max),
-  )
+  const [selectedFilter, setSelectedFilter] = useState<
+    (typeof ratingFilters)[number]
+  >(ratingFilters[0]);
+  // 선택한 평점 범위에 맞는 영화만 남김
+  const movies = previewMovies.filter(
+    ({ rating }) =>
+      rating >= selectedFilter.min &&
+      (selectedFilter.max === 10 ? rating <= 10 : rating < selectedFilter.max)
+  );
 
   return (
-    // 화면 너비에 맞게 줄어들고, 최대 1044px까지만 넓어지는 가운데 정렬 영역
+    // 화면 너비에 맞게 줄어들고, 최대 1044px까지만 넓어지는 가운데 정렬
     // mx-auto: 좌우 여백 자동 / w-full: 너비 100% / px-5: 좌우 내부 여백 20px
     <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10">
-      <h1 className="text-2xl font-extrabold text-text-primary">영화 둘러보기</h1>
+      <h1 className="text-2xl font-extrabold text-text-primary">
+        영화 둘러보기
+      </h1>
       {/* flex: 버튼을 가로로 배치 / flex-wrap: 공간이 부족하면 다음 줄로 / gap-2: 간격 8px */}
-      <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="영화 평점 필터">
+      <div
+        className="mt-6 flex flex-wrap gap-2"
+        role="group"
+        aria-label="영화 평점 필터"
+      >
         {/* 필터 배열을 map으로 순회하며 항목마다 StarSelect 버튼 하나를 생성 */}
         {ratingFilters.map((filter) => (
           <StarSelect
@@ -57,7 +67,6 @@ function MainPage() {
         sm:grid-cols-3: 화면 너비 640px 이상이면 3열
         md:grid-cols-4: 화면 너비 768px 이상이면 4열
         lg:grid-cols-5: 화면 너비 1024px 이상이면 5열
-        반응형 접두사는 해당 너비 이상에서 적용되고, 더 큰 구간의 설정이 덮어씀
         gap-x-5: 열 사이 간격 20px / gap-y-9: 행 사이 간격 36px
         items-start: 카드 높이가 달라도 위쪽에 맞춰 배치 / mt-7: 위 여백 28px
       */}
@@ -77,10 +86,12 @@ function MainPage() {
         ))}
       </div>
       {movies.length === 0 && (
-        <p className="py-16 text-center text-sm text-text-secondary">해당 평점의 영화가 없습니다.</p>
+        <p className="py-16 text-center text-sm text-text-secondary">
+          해당 평점의 영화가 없습니다.
+        </p>
       )}
     </main>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
