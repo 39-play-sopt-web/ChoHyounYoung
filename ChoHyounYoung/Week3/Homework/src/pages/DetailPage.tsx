@@ -67,7 +67,7 @@ function DetailPage({ movie = previewMovie }: DetailPageProps) {
     <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10 font-['Inter',sans-serif]">
       <a
         href="/"
-        className="text-xs font-medium tracking-[0.24px] text-accent hover:underline"
+        className="text-xs font-medium tracking-[0.24px] text-accent no-underline"
       >
         ← 목록으로 돌아가기
       </a>
