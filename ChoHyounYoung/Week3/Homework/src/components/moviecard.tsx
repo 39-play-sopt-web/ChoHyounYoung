@@ -16,7 +16,7 @@ function MovieCard({ title, releaseDate, overview, rating, posterUrl, onClick }:
     <button
       type="button"
       onClick={onClick}
-      className="w-full min-w-0 overflow-hidden rounded-[10px] bg-border text-left font-['Inter',sans-serif] transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="w-full min-w-0 overflow-hidden rounded-[10px] bg-border text-left font-['Inter',sans-serif] transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:ring-2 hover:ring-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <div className="relative aspect-[2/3] overflow-hidden bg-text-secondary">
         {posterUrl ? (
