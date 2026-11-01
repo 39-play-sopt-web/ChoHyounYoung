@@ -47,7 +47,7 @@ export default function GameModal({ open = false, onClose, levelLabel, playTime,
         type="button"
         autoFocus
         onClick={onClose}
-        className="mt-6 h-11 w-full rounded-lg bg-accent font-semibold transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-focus"
+        className="mt-6 h-11 w-full rounded-lg bg-accent font-semibold transition-colors hover:bg-accent-hover focus-ring"
       >
         확인
       </button>

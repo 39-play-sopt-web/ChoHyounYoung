@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DEFAULT_LEVEL } from './constants/game.js';
+import useTimer from './hooks/useTimer.js';
 import Header from './components/Header.jsx';
 import GamePage from './pages/GamePage.jsx';
 import RankingPage from './pages/RankingPage.jsx';
@@ -8,12 +9,18 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 export default function App() {
   // Header와 GamePage가 같은 레벨을 사용하도록 공통 부모에서 관리한다.
   const [level, setLevel] = useState(DEFAULT_LEVEL);
-  const [time, setTime] = useState(0);
+  const [round, setRound] = useState(0);
+  const { time, start, stop, reset } = useTimer();
 
   const handleLevelChange = (newLevel) => {
     if (newLevel === level) return;
-    setTime(0);
+    reset();
     setLevel(newLevel);
+  };
+
+  const restartGame = () => {
+    reset();
+    setRound((value) => value + 1);
   };
 
   return (
@@ -23,8 +30,8 @@ export default function App() {
       <Routes>
         {/* 기본 경로는 게임 페이지로 연결한다. */}
         <Route path="/" element={<Navigate to="/game" replace />} />
-        {/* 레벨이 바뀌면 GamePage를 새로 생성해 숫자판과 게임 상태를 초기화한다. */}
-        <Route path="/game" element={<GamePage key={level} level={level} onTimeChange={setTime} />} />
+        {/* 레벨 변경과 재시작 시 GamePage를 새로 생성해 모든 게임 상태를 초기화한다. */}
+        <Route path="/game" element={<GamePage key={`${level}-${round}`} level={level} onStart={start} onStop={stop} onResetTimer={reset} onRestart={restartGame} />} />
         <Route path="/ranking" element={<RankingPage />} />
       </Routes>
     </BrowserRouter>

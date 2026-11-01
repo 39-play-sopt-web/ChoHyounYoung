@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { GAME_LEVELS, RANKING_STORAGE_KEY } from '../constants/game.js';
-import { removeStorage } from '../utils/storage.js';
-import { getRankingRecords, sortRankingRecords } from '../utils/ranking.js';
+import { GAME_LEVELS } from '../constants/game.js';
+import { clearRankingRecords, getRankingRecords, sortRankingRecords } from '../utils/ranking.js';
 
 const dateFormatter = new Intl.DateTimeFormat('ko-KR', {
   year: 'numeric',
@@ -23,7 +22,7 @@ export default function RankingPage() {
 
   const handleReset = () => {
     // 다른 서비스 데이터까지 지우지 않고 게임 기록의 키만 삭제한다.
-    if (!removeStorage(RANKING_STORAGE_KEY)) {
+    if (!clearRankingRecords()) {
       setResetError(true);
       return;
     }
@@ -47,7 +46,7 @@ export default function RankingPage() {
                   type="button"
                   aria-pressed={sortBy === option.value}
                   onClick={() => setSortBy(option.value)}
-                  className={`py-2 text-caption transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-focus ${sortBy === option.value ? 'font-semibold text-primary' : 'text-subtle hover:text-accent-bright'}`}
+                  className={`py-2 text-caption transition-colors duration-200 focus-ring ${sortBy === option.value ? 'font-semibold text-primary' : 'text-subtle hover:text-accent-bright'}`}
                 >
                   {option.label}
                 </button>
@@ -58,7 +57,7 @@ export default function RankingPage() {
             type="button"
             onClick={handleReset}
             disabled={rankings.length === 0}
-            className="h-10 shrink-0 rounded-lg bg-accent px-4 text-caption font-semibold transition-colors enabled:hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-focus disabled:cursor-default disabled:opacity-40"
+            className="h-10 shrink-0 rounded-lg bg-accent px-4 text-caption font-semibold transition-colors enabled:hover:bg-accent-hover focus-ring disabled:cursor-default disabled:opacity-40"
           >
             초기화
           </button>
@@ -102,7 +101,7 @@ export default function RankingPage() {
               <tbody>
                 {rankings.map((record, index) => (
                   <tr
-                    key={`${record.playedAt}-${index}`}
+                    key={record.id}
                     className="border-t border-divider"
                   >
                     <th scope="row" className="px-4 py-4 font-semibold">

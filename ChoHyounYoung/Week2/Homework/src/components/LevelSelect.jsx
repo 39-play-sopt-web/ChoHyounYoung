@@ -86,7 +86,7 @@ export default function LevelSelect({ level, onLevelChange }) {
           setActiveIndex(selectedIndex);
           setIsOpen((open) => !open);
         }}
-        className={`flex h-10 w-34 cursor-pointer items-center justify-between rounded-md border bg-control px-3 text-caption text-control-ink transition-[border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-neutral ${isOpen ? 'border-accent-bright ring-2 ring-accent' : 'border-transparent ring-2 ring-transparent'}`}
+        className={`flex h-10 w-34 cursor-pointer items-center justify-between rounded-md border bg-control px-3 text-caption text-control-ink transition-[border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none focus:outline-none focus-ring focus-visible:outline-focus-neutral ${isOpen ? 'border-accent-bright ring-2 ring-accent' : 'border-transparent ring-2 ring-transparent'}`}
       >
         <span>{LEVEL_OPTIONS[selectedIndex].label}</span>
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 shrink-0 text-icon">
