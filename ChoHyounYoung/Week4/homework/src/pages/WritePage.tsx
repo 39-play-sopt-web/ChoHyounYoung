@@ -61,7 +61,7 @@ export function WritePage() {
           <Button type="button" onClick={() => { void navigate('/'); }}>목록으로</Button>
           {step !== 'title' && <Button type="button" onClick={() => setStep(steps[steps.indexOf(step) - 1])}>이전</Button>}
           <Button $variant="primary" disabled={!canContinue || createMutation.isPending}>
-            {step === 'author' ? createMutation.isPending ? '작성 중...' : '작성' : '다음'}
+            {step === 'author' ? '작성' : '다음'}
           </Button>
         </ButtonRow>
       </form>

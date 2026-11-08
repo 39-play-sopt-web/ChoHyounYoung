@@ -14,9 +14,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button, input, textarea, select { font: inherit; }
-  button { cursor: pointer; }
-  button:disabled { cursor: not-allowed; opacity: .45; }
-  a { color: inherit; text-decoration: none; }
+  button:disabled { opacity: .45; }
+  a { color: inherit; text-decoration: none; cursor: default; }
   :focus-visible { outline: 2px solid ${({ theme }) => theme.colors.primary}; outline-offset: 3px; }
   ::selection { color: ${({ theme }) => theme.colors.onPrimary}; background: ${({ theme }) => theme.colors.primary}; }
 `;

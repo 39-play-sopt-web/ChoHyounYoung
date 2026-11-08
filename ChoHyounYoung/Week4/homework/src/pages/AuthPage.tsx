@@ -38,7 +38,7 @@ export function AuthPage() {
             <option value="ANDROID">ANDROID</option>
           </Select>
           <Button $variant="primary" disabled={!part || issueCode.isPending} onClick={() => part && issueCode.mutate(part)}>
-            {issueCode.isPending ? '발급 중...' : '코드 발급'}
+            코드 발급
           </Button>
         </Row>
         {issueCode.isError && <Message role="alert">{getErrorMessage(issueCode.error)}</Message>}
