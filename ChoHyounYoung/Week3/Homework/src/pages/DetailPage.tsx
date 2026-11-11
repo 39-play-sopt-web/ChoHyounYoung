@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getApiErrorMessage, getMovieDetail, hasApiKey } from '../api/movies';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
-import DetailCard from '../components/detailcard';
-import DetailChip from '../components/detailchip';
+import DetailCard from '../components/DetailCard';
+import DetailChip from '../components/DetailChip';
 import starIcon from '../assets/star_s.svg';
 
 const formatMoney = (amount: number) =>

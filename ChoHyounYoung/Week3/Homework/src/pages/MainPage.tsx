@@ -4,8 +4,8 @@ import { getApiErrorMessage, hasApiKey } from '../api/movies';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
 import { useNavigate } from 'react-router-dom';
-import StarSelect from '../components/starselect';
-import MovieCard from '../components/moviecard';
+import StarSelect from '../components/StarSelect';
+import MovieCard from '../components/MovieCard';
 
 const ratingFilters = [
   { id: 'all', label: '전체', min: 0, max: 10 },

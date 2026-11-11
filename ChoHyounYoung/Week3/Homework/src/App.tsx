@@ -1,4 +1,4 @@
-import Header from './components/header';
+import Header from './components/Header';
 import MovieListPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
 import { Route, Routes } from 'react-router-dom';
