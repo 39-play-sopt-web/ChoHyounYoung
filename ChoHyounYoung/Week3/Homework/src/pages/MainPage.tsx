@@ -4,8 +4,9 @@ import { getApiErrorMessage } from '../api/movies';
 import { hasApiKey } from '../lib/http';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
-import StarSelect from '../components/StarSelect';
+import RatingFilterButton from '../components/RatingFilterButton';
 import MovieCard from '../components/MovieCard';
+import { ROUTES } from '../constants/routes';
 
 const ratingFilters = [
   { id: 'all', label: '전체', min: 0, max: 10 },
@@ -25,6 +26,7 @@ function MainPage() {
     error,
     isPending,
     isFetchingNextPage,
+    isFetchNextPageError,
     hasNextPage,
     fetchNextPage,
     refetch,
@@ -67,7 +69,7 @@ function MainPage() {
         aria-label="영화 평점 필터"
       >
         {ratingFilters.map((filter) => (
-          <StarSelect
+          <RatingFilterButton
             key={filter.id}
             label={filter.label}
             isSelected={selectedFilter.id === filter.id}
@@ -75,15 +77,6 @@ function MainPage() {
           />
         ))}
       </div>
-      {/*
-        grid: 영화 카드를 행과 열로 배치
-        grid-cols-2: 기본 2열 (640px 미만)
-        sm:grid-cols-3: 화면 너비 640px 이상이면 3열
-        md:grid-cols-4: 화면 너비 768px 이상이면 4열
-        lg:grid-cols-5: 화면 너비 1024px 이상이면 5열
-        gap-x-[22px]: 열 사이 간격 22px / gap-y-[23px]: 행 사이 간격 23px
-        items-start: 카드 높이가 달라도 위쪽에 맞춰 배치 / mt-[25px]: 위 여백 25px
-      */}
       <div className="mt-[25px] grid grid-cols-2 items-start gap-x-[22px] gap-y-[23px] sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {movies.map((movie) => (
           <MovieCard
@@ -93,7 +86,7 @@ function MainPage() {
             overview={movie.overview}
             rating={movie.vote_average}
             posterUrl={getImageUrl(movie.poster_path)}
-            to={`/movies/${movie.id}`}
+            to={ROUTES.movieDetail(movie.id)}
           />
         ))}
       </div>
@@ -118,7 +111,7 @@ function MainPage() {
             type="button"
             className="mt-3 text-accent"
             onClick={() => {
-              void (data ? fetchNextPage() : refetch());
+              void (isFetchNextPageError ? fetchNextPage() : refetch());
             }}
           >
             다시 시도

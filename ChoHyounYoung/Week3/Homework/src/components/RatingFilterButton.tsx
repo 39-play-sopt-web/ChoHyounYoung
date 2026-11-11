@@ -1,10 +1,14 @@
-type StarSelectProps = {
+type RatingFilterButtonProps = {
   label: string;
   onClick: () => void;
-  isSelected?: boolean;
+  isSelected: boolean;
 };
 
-function StarSelect({ label, onClick, isSelected = false }: StarSelectProps) {
+function RatingFilterButton({
+  label,
+  onClick,
+  isSelected,
+}: RatingFilterButtonProps) {
   return (
     <button
       type="button"
@@ -19,4 +23,4 @@ function StarSelect({ label, onClick, isSelected = false }: StarSelectProps) {
   );
 }
 
-export default StarSelect;
+export default RatingFilterButton;
