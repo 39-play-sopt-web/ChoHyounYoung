@@ -24,10 +24,16 @@ function MainPage() {
   >(ratingFilters[0]);
   const { data, error, isPending, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } = useMovies(selectedFilter);
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const movies = [...new Map((data?.pages.flatMap((page) => page.results) ?? [])
-    // lte는 경계를 포함하므로, '6점 미만' 등의 상한을 클라이언트에서도 확인
-    .filter((movie) => movie.vote_average >= selectedFilter.min && (selectedFilter.max === 10 ? movie.vote_average <= 10 : movie.vote_average < selectedFilter.max))
-    .map((movie) => [movie.id, movie])).values()];
+  const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
+  // lte는 경계를 포함하므로, '6점 미만' 등의 상한을 클라이언트에서도 확인
+  const moviesInRange = allMovies.filter(
+    (movie) =>
+      movie.vote_average >= selectedFilter.min &&
+      (selectedFilter.max === 10
+        ? movie.vote_average <= 10
+        : movie.vote_average < selectedFilter.max),
+  );
+  const movies = [...new Map(moviesInRange.map((movie) => [movie.id, movie])).values()];
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
