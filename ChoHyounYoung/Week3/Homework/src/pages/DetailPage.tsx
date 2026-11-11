@@ -92,7 +92,7 @@ function DetailPage() {
   ];
 
   return (
-    <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10 font-['Inter',sans-serif]">
+    <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10">
       <Link
         to="/"
         className="text-xs font-medium tracking-[0.24px] text-accent no-underline"

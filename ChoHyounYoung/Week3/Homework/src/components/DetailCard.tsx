@@ -5,7 +5,7 @@ type DetailCardProps = {
 
 function DetailCard({ label, value }: DetailCardProps) {
   return (
-    <div className="min-h-[89px] w-full rounded-[10px] bg-border p-4 font-['Inter',sans-serif]">
+    <div className="min-h-[89px] w-full rounded-[10px] bg-border p-4">
       <p className="text-[11px] leading-4 font-normal text-text-secondary">
         {label}
       </p>

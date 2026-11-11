@@ -22,7 +22,7 @@ function MovieCard({
   return (
     <Link
       to={to}
-      className="flex h-[398px] w-full min-w-0 flex-col overflow-hidden rounded-[10px] bg-border text-left font-['Inter',sans-serif] no-underline transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="flex h-[398px] w-full min-w-0 flex-col overflow-hidden rounded-[10px] bg-border text-left no-underline transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <div className="relative aspect-[183/274] w-full shrink-0 overflow-hidden bg-text-muted">
         {posterUrl ? (
