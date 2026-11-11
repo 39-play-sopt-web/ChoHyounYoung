@@ -1,32 +1,21 @@
-// 레벨 번호를 키로 사용한다. 게임판과 랭킹에서 같은 규칙을 참조한다.
+// 파생 값은 gridSize에서 계산해 레벨 규칙이 서로 어긋나지 않도록 한다.
+function createLevel(level, gridSize) {
+  const tileCount = gridSize ** 2;
+  return {
+    level,
+    label: `Level ${level}`,
+    gridSize,
+    tileCount,
+    firstNumber: 1,
+    initialMaxNumber: tileCount,
+    lastNumber: tileCount * 2,
+  };
+}
+
 export const GAME_LEVELS = {
-  1: {
-    level: 1,
-    label: 'Level 1',
-    gridSize: 3,
-    tileCount: 9,
-    firstNumber: 1,
-    initialMaxNumber: 9,
-    lastNumber: 18,
-  },
-  2: {
-    level: 2,
-    label: 'Level 2',
-    gridSize: 4,
-    tileCount: 16,
-    firstNumber: 1,
-    initialMaxNumber: 16,
-    lastNumber: 32,
-  },
-  3: {
-    level: 3,
-    label: 'Level 3',
-    gridSize: 5,
-    tileCount: 25,
-    firstNumber: 1,
-    initialMaxNumber: 25,
-    lastNumber: 50,
-  },
+  1: createLevel(1, 3),
+  2: createLevel(2, 4),
+  3: createLevel(3, 5),
 };
 
 // 앞 절반을 먼저 표시하고, 맞힌 칸에 섞어둔 후반 숫자를 하나씩 채운다.

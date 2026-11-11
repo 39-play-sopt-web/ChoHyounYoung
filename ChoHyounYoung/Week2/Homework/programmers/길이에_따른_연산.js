@@ -4,7 +4,7 @@ function solution(num_list) {
   if (num_list.length >= 11) {
     // reduce: 배열의 숫자를 하나씩 계산해서 최종 결과를 구한다.
     // acc: 지금까지 계산한 값 / num: 이번에 계산할 숫자
-    // 맨 뒤 값부터 시작해, 계산 결과를 다음 acc로 사용한다.
+    // 초기값 0에서 시작해 배열의 앞에서부터 계산하고, 결과를 다음 acc로 사용한다.
     // 예: [2, 3, 4] → 0 + 2 = 2 → 2 + 3 = 5 → 5 + 4 = 9
     answer = num_list.reduce((acc, num) => acc + num, 0);
   } else {

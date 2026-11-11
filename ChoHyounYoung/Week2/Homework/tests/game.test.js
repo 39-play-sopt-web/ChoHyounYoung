@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { GAME_LEVELS, RANKING_STORAGE_KEY } from '../src/constants/game.js';
 import { advanceGame, createInitialGame } from '../src/utils/game.js';
-import { getRankingRecords, saveRankingRecord, sortRankingRecords } from '../src/utils/ranking.js';
+import { clearRankingRecords, getRankingRecords, saveRankingRecord, sortRankingRecords } from '../src/utils/ranking.js';
 
 for (const rule of Object.values(GAME_LEVELS)) {
   test(`${rule.label}: 모든 숫자를 한 번씩 순서대로 완료하고 중복 클릭을 무시한다`, () => {
@@ -51,15 +51,32 @@ test('기록을 누적 저장하고 잘못된 기록과 손상된 JSON을 처리
   globalThis.localStorage = {
     getItem: (key) => values.get(key) ?? null,
     setItem: (key, value) => values.set(key, value),
+    removeItem: (key) => values.delete(key),
   };
   try {
     const first = { level: 1, playTime: 2, playedAt: '2026-10-14T00:00:00.000Z' };
     const second = { ...first, level: 2, playTime: 5 };
     assert.equal(saveRankingRecord(first), true);
     assert.equal(saveRankingRecord(second), true);
-    assert.deepEqual(getRankingRecords(), [first, second]);
+    const saved = getRankingRecords();
+    assert.deepEqual(saved.map(({ id, ...record }) => record), [first, second]);
+    assert.ok(saved.every((record) => typeof record.id === 'string' && record.id));
+    assert.notEqual(saved[0].id, saved[1].id);
+    assert.deepEqual(getRankingRecords(), saved);
+    assert.deepEqual(sortRankingRecords(saved).map((record) => record.id), [saved[1].id, saved[0].id]);
     values.set(RANKING_STORAGE_KEY, JSON.stringify([first, null, { ...first, level: 'toString' }, { ...first, playTime: -1 }]));
-    assert.deepEqual(getRankingRecords(), [first]);
+    const legacy = getRankingRecords();
+    assert.deepEqual(legacy.map(({ id, ...record }) => record), [first]);
+    assert.deepEqual(getRankingRecords(), legacy);
+    values.set(RANKING_STORAGE_KEY, JSON.stringify([first, first]));
+    const duplicates = getRankingRecords();
+    assert.notEqual(duplicates[0].id, duplicates[1].id);
+    values.set('other-service', 'keep');
+    assert.equal(clearRankingRecords(), true);
+    assert.equal(values.has(RANKING_STORAGE_KEY), false);
+    assert.equal(values.get('other-service'), 'keep');
+    globalThis.localStorage.removeItem = () => { throw new Error('Storage unavailable'); };
+    assert.equal(clearRankingRecords(), false);
     values.set(RANKING_STORAGE_KEY, 'invalid JSON');
     assert.deepEqual(getRankingRecords(), []);
     globalThis.localStorage.setItem = () => { throw new Error('Storage unavailable'); };

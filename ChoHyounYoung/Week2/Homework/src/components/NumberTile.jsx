@@ -23,7 +23,7 @@ export default function NumberTile({ number, onClick, disabled = false }) {
       onClick={handleClick}
       disabled={disabled}
       // 크기는 부모 grid가 결정한다. active는 누르는 동안, isFlashing은 클릭 직후의 효과다.
-      className={`flex h-full w-full min-w-0 items-center justify-center rounded-xl text-tile font-bold text-tile-ink shadow-sm transition-[background-color,box-shadow,transform] duration-150 ease-out enabled:hover:-translate-y-0.5 enabled:hover:shadow-md enabled:active:translate-y-0 enabled:active:scale-95 enabled:active:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-focus disabled:cursor-default motion-reduce:transition-none motion-reduce:transform-none ${isFlashing ? 'bg-surface' : 'bg-accent-soft enabled:hover:bg-accent'}`}
+      className={`flex h-full w-full min-w-0 items-center justify-center rounded-xl text-tile font-bold text-tile-ink shadow-sm transition-[background-color,box-shadow,transform] duration-150 ease-out enabled:hover:-translate-y-0.5 enabled:hover:shadow-md enabled:active:translate-y-0 enabled:active:scale-95 enabled:active:bg-surface focus-ring disabled:cursor-default motion-reduce:transition-none motion-reduce:transform-none ${isFlashing ? 'bg-surface' : 'bg-accent-soft enabled:hover:bg-accent'}`}
     >
       {number}
     </button>
