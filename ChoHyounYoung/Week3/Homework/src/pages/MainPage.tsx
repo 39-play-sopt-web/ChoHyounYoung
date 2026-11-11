@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMovies } from '../hooks/useMovies';
-import { getApiErrorMessage, hasApiKey } from '../api/movies';
+import { getApiErrorMessage } from '../api/movies';
+import { hasApiKey } from '../lib/http';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
 import { useNavigate } from 'react-router-dom';

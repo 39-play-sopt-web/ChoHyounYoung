@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getMovies, hasApiKey } from '../api/movies';
+import { getMovies } from '../api/movies';
+import { hasApiKey } from '../lib/http';
 import type { RatingFilter } from '../types/movie';
 
 export function useMovies(filter: RatingFilter) {

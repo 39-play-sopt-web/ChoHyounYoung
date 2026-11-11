@@ -4,22 +4,14 @@ import type {
   MovieListResponse,
   RatingFilter,
 } from '../types/movie';
-
-const apiKey = import.meta.env.VITE_API_KEY?.trim();
-export const hasApiKey = Boolean(apiKey);
-
-const client = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.themoviedb.org/3',
-  timeout: 15000,
-  params: { api_key: apiKey, language: 'ko-KR' },
-});
+import { httpClient } from '../lib/http';
 
 export async function getMovies(
   filter: RatingFilter,
   page: number,
   signal?: AbortSignal
 ) {
-  const { data } = await client.get<MovieListResponse>('/discover/movie', {
+  const { data } = await httpClient.get<MovieListResponse>('/discover/movie', {
     signal,
     params: {
       page,
@@ -33,9 +25,10 @@ export async function getMovies(
 }
 
 export async function getMovieDetail(movieId: number, signal?: AbortSignal) {
-  const { data } = await client.get<MovieDetailResponse>(`/movie/${movieId}`, {
-    signal,
-  });
+  const { data } = await httpClient.get<MovieDetailResponse>(
+    `/movie/${movieId}`,
+    { signal }
+  );
   return data;
 }
 

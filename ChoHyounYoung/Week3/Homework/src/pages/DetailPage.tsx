@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getApiErrorMessage, getMovieDetail, hasApiKey } from '../api/movies';
+import { getApiErrorMessage, getMovieDetail } from '../api/movies';
+import { hasApiKey } from '../lib/http';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
 import DetailCard from '../components/DetailCard';
