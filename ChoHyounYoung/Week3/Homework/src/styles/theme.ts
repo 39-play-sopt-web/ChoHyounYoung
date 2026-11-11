@@ -9,4 +9,4 @@ export const theme = {
     textSecondary: 'var(--color-text-secondary)',
     textMuted: 'var(--color-text-muted)',
   },
-}
+};

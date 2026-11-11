@@ -6,7 +6,7 @@ function Header() {
         <span className="text-accent">MOVIE</span>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

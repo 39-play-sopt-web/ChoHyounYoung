@@ -1,17 +1,24 @@
-import starIcon from '../assets/star_s.svg'
+import starIcon from '../assets/star_s.svg';
 
 type MovieCardProps = {
-  title: string
-  releaseDate: string
-  overview: string
-  rating: number
+  title: string;
+  releaseDate: string;
+  overview: string;
+  rating: number;
   // 부모에서 API의 포스터 경로를 완성된 이미지 주소로 변환해서 전달
-  posterUrl?: string | null
+  posterUrl?: string | null;
   // 상세 페이지 이동은 부모에서 처리
-  onClick?: () => void
-}
+  onClick?: () => void;
+};
 
-function MovieCard({ title, releaseDate, overview, rating, posterUrl, onClick }: MovieCardProps) {
+function MovieCard({
+  title,
+  releaseDate,
+  overview,
+  rating,
+  posterUrl,
+  onClick,
+}: MovieCardProps) {
   return (
     <button
       type="button"
@@ -20,7 +27,12 @@ function MovieCard({ title, releaseDate, overview, rating, posterUrl, onClick }:
     >
       <div className="relative aspect-[183/274] w-full shrink-0 overflow-hidden bg-text-muted">
         {posterUrl ? (
-          <img src={posterUrl} alt={`${title} 포스터`} loading="lazy" className="h-full w-full object-cover" />
+          <img
+            src={posterUrl}
+            alt={`${title} 포스터`}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-black">
             포스터 없음
@@ -33,12 +45,21 @@ function MovieCard({ title, releaseDate, overview, rating, posterUrl, onClick }:
         </span>
       </div>
       <div className="px-[15px] pt-3 pb-4">
-        <h2 className="truncate text-[13px] leading-4 font-bold text-text-primary" title={title}>{title}</h2>
-        <p className="mt-[5px] text-[11px] leading-[15px] text-accent">{releaseDate || '개봉일 정보 없음'}</p>
-        <p className="mt-1.5 line-clamp-3 min-h-[52.8px] text-[11px] leading-[17.6px] text-text-secondary">{overview || '줄거리 정보가 없습니다.'}</p>
+        <h2
+          className="truncate text-[13px] leading-4 font-bold text-text-primary"
+          title={title}
+        >
+          {title}
+        </h2>
+        <p className="mt-[5px] text-[11px] leading-[15px] text-accent">
+          {releaseDate || '개봉일 정보 없음'}
+        </p>
+        <p className="mt-1.5 line-clamp-3 min-h-[52.8px] text-[11px] leading-[17.6px] text-text-secondary">
+          {overview || '줄거리 정보가 없습니다.'}
+        </p>
       </div>
     </button>
-  )
+  );
 }
 
-export default MovieCard
+export default MovieCard;

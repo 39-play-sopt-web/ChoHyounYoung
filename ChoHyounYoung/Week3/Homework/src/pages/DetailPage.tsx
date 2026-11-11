@@ -14,7 +14,9 @@ function DetailPage() {
   // URL의 movieId로 해당 영화만 조회하고, ID가 바뀌면 새로 요청
   const { movieId } = useParams<{ movieId: string }>();
   const id = Number(movieId);
-  const isValidId = Boolean(movieId && /^[1-9]\d*$/.test(movieId) && Number.isSafeInteger(id));
+  const isValidId = Boolean(
+    movieId && /^[1-9]\d*$/.test(movieId) && Number.isSafeInteger(id)
+  );
   const { data, error, isPending, refetch } = useQuery({
     queryKey: ['movie', id],
     queryFn: ({ signal }) => getMovieDetail(id, signal),
@@ -25,11 +27,33 @@ function DetailPage() {
   if (!isValidId || !hasApiKey || isPending || error || !data) {
     return (
       <main className="mx-auto max-w-[1044px] px-5 py-8">
-        <Link to="/" className="text-xs text-accent no-underline">← 목록으로 돌아가기</Link>
-        {!isValidId ? <p role="alert" className="py-12">올바르지 않은 영화 ID입니다.</p>
-          : !hasApiKey ? <ApiKeyNotice />
-          : error ? <div role="alert" className="py-12"><p>{getApiErrorMessage(error)}</p><button type="button" className="mt-3 text-accent" onClick={() => { void refetch(); }}>다시 시도</button></div>
-          : <p role="status" className="py-12">영화 정보를 불러오는 중입니다...</p>}
+        <Link to="/" className="text-xs text-accent no-underline">
+          ← 목록으로 돌아가기
+        </Link>
+        {!isValidId ? (
+          <p role="alert" className="py-12">
+            올바르지 않은 영화 ID입니다.
+          </p>
+        ) : !hasApiKey ? (
+          <ApiKeyNotice />
+        ) : error ? (
+          <div role="alert" className="py-12">
+            <p>{getApiErrorMessage(error)}</p>
+            <button
+              type="button"
+              className="mt-3 text-accent"
+              onClick={() => {
+                void refetch();
+              }}
+            >
+              다시 시도
+            </button>
+          </div>
+        ) : (
+          <p role="status" className="py-12">
+            영화 정보를 불러오는 중입니다...
+          </p>
+        )}
       </main>
     );
   }
@@ -42,9 +66,25 @@ function DetailPage() {
   // 같은 형태의 기본 정보 카드를 배열로 구성해 재사용
   const basicInfo = [
     { label: '원제', value: movie.original_title },
-    { label: '원어', value: new Intl.DisplayNames(['ko'], { type: 'language' }).of(movie.original_language) ?? movie.original_language },
-    { label: '제작 국가', value: movie.production_countries.map((country) => country.name).join(', ') },
-    { label: '사용 언어', value: movie.spoken_languages.map((language) => language.english_name || language.name).join(', ') },
+    {
+      label: '원어',
+      value:
+        new Intl.DisplayNames(['ko'], { type: 'language' }).of(
+          movie.original_language
+        ) ?? movie.original_language,
+    },
+    {
+      label: '제작 국가',
+      value: movie.production_countries
+        .map((country) => country.name)
+        .join(', '),
+    },
+    {
+      label: '사용 언어',
+      value: movie.spoken_languages
+        .map((language) => language.english_name || language.name)
+        .join(', '),
+    },
     { label: '예산', value: formatMoney(movie.budget) },
     { label: '수익', value: formatMoney(movie.revenue) },
   ];

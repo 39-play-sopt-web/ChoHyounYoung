@@ -22,7 +22,15 @@ function MainPage() {
   const [selectedFilter, setSelectedFilter] = useState<
     (typeof ratingFilters)[number]
   >(ratingFilters[0]);
-  const { data, error, isPending, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } = useMovies(selectedFilter);
+  const {
+    data,
+    error,
+    isPending,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    refetch,
+  } = useMovies(selectedFilter);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
   // lte는 경계를 포함하므로, '6점 미만' 등의 상한을 클라이언트에서도 확인
@@ -31,24 +39,27 @@ function MainPage() {
       movie.vote_average >= selectedFilter.min &&
       (selectedFilter.max === 10
         ? movie.vote_average <= 10
-        : movie.vote_average < selectedFilter.max),
+        : movie.vote_average < selectedFilter.max)
   );
-  const movies = [...new Map(moviesInRange.map((movie) => [movie.id, movie])).values()];
+  const movies = [
+    ...new Map(moviesInRange.map((movie) => [movie.id, movie])).values(),
+  ];
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel || !hasNextPage || isFetchingNextPage || error) return;
     // 목록 끝에서 300px 전에 다음 페이지 요청. 요청 중에는 중복 호출 방지
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) void fetchNextPage();
-    }, { rootMargin: '300px' });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) void fetchNextPage();
+      },
+      { rootMargin: '300px' }
+    );
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, error]);
 
   return (
-
-
     <main className="mx-auto w-full max-w-[1044px] px-5 pt-[32px] pb-10">
       <h1 className="text-2xl font-bold text-text-primary">영화 둘러보기</h1>
       <div
@@ -78,14 +89,11 @@ function MainPage() {
         {movies.map((movie) => (
           <MovieCard
             key={movie.id}
-
             title={movie.title}
             releaseDate={formatReleaseDate(movie.release_date)}
             overview={movie.overview}
             rating={movie.vote_average}
-
             posterUrl={getImageUrl(movie.poster_path)}
-
             onClick={() => navigate(`/movies/${movie.id}`)}
           />
         ))}
@@ -96,15 +104,29 @@ function MainPage() {
         </p>
       )}
       {!hasApiKey && <ApiKeyNotice />}
-      {hasApiKey && (isPending || isFetchingNextPage) && <p role="status" className="py-8 text-center text-sm text-text-secondary">영화를 불러오는 중입니다...</p>}
+      {hasApiKey && (isPending || isFetchingNextPage) && (
+        <p
+          role="status"
+          className="py-8 text-center text-sm text-text-secondary"
+        >
+          영화를 불러오는 중입니다...
+        </p>
+      )}
       {error && (
         <div role="alert" className="py-8 text-center text-sm">
           <p>{getApiErrorMessage(error)}</p>
-          <button type="button" className="mt-3 text-accent" onClick={() => { void (data ? fetchNextPage() : refetch()); }}>다시 시도</button>
+          <button
+            type="button"
+            className="mt-3 text-accent"
+            onClick={() => {
+              void (data ? fetchNextPage() : refetch());
+            }}
+          >
+            다시 시도
+          </button>
         </div>
       )}
       <div ref={sentinelRef} aria-hidden="true" className="h-px" />
-
     </main>
   );
 }
