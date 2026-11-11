@@ -4,7 +4,6 @@ import { getApiErrorMessage } from '../api/movies';
 import { hasApiKey } from '../lib/http';
 import { formatReleaseDate, getImageUrl } from '../utils/movie';
 import ApiKeyNotice from '../components/ApiKeyNotice';
-import { useNavigate } from 'react-router-dom';
 import StarSelect from '../components/StarSelect';
 import MovieCard from '../components/MovieCard';
 
@@ -18,8 +17,6 @@ const ratingFilters = [
 ] as const;
 
 function MainPage() {
-  const navigate = useNavigate();
-
   const [selectedFilter, setSelectedFilter] = useState<
     (typeof ratingFilters)[number]
   >(ratingFilters[0]);
@@ -96,7 +93,7 @@ function MainPage() {
             overview={movie.overview}
             rating={movie.vote_average}
             posterUrl={getImageUrl(movie.poster_path)}
-            onClick={() => navigate(`/movies/${movie.id}`)}
+            to={`/movies/${movie.id}`}
           />
         ))}
       </div>

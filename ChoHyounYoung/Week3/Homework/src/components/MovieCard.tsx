@@ -1,4 +1,5 @@
 import starIcon from '../assets/star_s.svg';
+import { Link } from 'react-router-dom';
 
 type MovieCardProps = {
   title: string;
@@ -7,8 +8,7 @@ type MovieCardProps = {
   rating: number;
   // 부모에서 API의 포스터 경로를 완성된 이미지 주소로 변환해서 전달
   posterUrl?: string | null;
-  // 상세 페이지 이동은 부모에서 처리
-  onClick?: () => void;
+  to: string;
 };
 
 function MovieCard({
@@ -17,13 +17,12 @@ function MovieCard({
   overview,
   rating,
   posterUrl,
-  onClick,
+  to,
 }: MovieCardProps) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex h-[398px] w-full flex-col min-w-0 overflow-hidden rounded-[10px] bg-border text-left font-['Inter',sans-serif] transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    <Link
+      to={to}
+      className="flex h-[398px] w-full min-w-0 flex-col overflow-hidden rounded-[10px] bg-border text-left font-['Inter',sans-serif] no-underline transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <div className="relative aspect-[183/274] w-full shrink-0 overflow-hidden bg-text-muted">
         {posterUrl ? (
@@ -58,7 +57,7 @@ function MovieCard({
           {overview || '줄거리 정보가 없습니다.'}
         </p>
       </div>
-    </button>
+    </Link>
   );
 }
 
