@@ -58,13 +58,9 @@ function MainPage() {
       >
         {ratingFilters.map((filter) => (
           <StarSelect
-
             key={filter.id}
-
             label={filter.label}
-
             isSelected={selectedFilter.id === filter.id}
-
             onClick={() => setSelectedFilter(filter)}
           />
         ))}
