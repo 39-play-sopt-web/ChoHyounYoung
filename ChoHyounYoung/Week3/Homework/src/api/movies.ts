@@ -5,28 +5,32 @@ import type {
   RatingFilter,
 } from '../types/movie';
 import { httpClient } from '../lib/http';
+import { MOVIE_ENDPOINTS } from '../constants/api';
 
 export async function getMovies(
   filter: RatingFilter,
   page: number,
   signal?: AbortSignal
 ) {
-  const { data } = await httpClient.get<MovieListResponse>('/discover/movie', {
-    signal,
-    params: {
-      page,
-      sort_by: 'popularity.desc',
-      include_adult: false,
-      'vote_average.gte': filter.min,
-      'vote_average.lte': filter.max,
-    },
-  });
+  const { data } = await httpClient.get<MovieListResponse>(
+    MOVIE_ENDPOINTS.list,
+    {
+      signal,
+      params: {
+        page,
+        sort_by: 'popularity.desc',
+        include_adult: false,
+        'vote_average.gte': filter.min,
+        'vote_average.lte': filter.max,
+      },
+    }
+  );
   return data;
 }
 
 export async function getMovieDetail(movieId: number, signal?: AbortSignal) {
   const { data } = await httpClient.get<MovieDetailResponse>(
-    `/movie/${movieId}`,
+    MOVIE_ENDPOINTS.detail(movieId),
     { signal }
   );
   return data;
