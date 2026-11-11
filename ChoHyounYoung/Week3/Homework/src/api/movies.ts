@@ -38,6 +38,7 @@ export async function getMovieDetail(movieId: number, signal?: AbortSignal) {
 
 export function getApiErrorMessage(error: unknown) {
   if (axios.isAxiosError(error)) {
+    if (error.code === 'ERR_CANCELED') return null;
     if (error.response?.status === 401) return 'TMDB API 키를 확인해주세요.';
     if (error.response?.status === 404) return '영화를 찾을 수 없습니다.';
     if (error.response?.status === 429)

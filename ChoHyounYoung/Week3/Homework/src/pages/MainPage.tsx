@@ -33,6 +33,7 @@ function MainPage() {
     refetch,
   } = useMovies(selectedFilter);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const errorMessage = error ? getApiErrorMessage(error) : null;
   const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
   // lte는 경계를 포함하므로, '6점 미만' 등의 상한을 클라이언트에서도 확인
   const moviesInRange = allMovies.filter(
@@ -113,9 +114,9 @@ function MainPage() {
           영화를 불러오는 중입니다...
         </p>
       )}
-      {error && (
+      {errorMessage && (
         <div role="alert" className="py-8 text-center text-sm">
-          <p>{getApiErrorMessage(error)}</p>
+          <p>{errorMessage}</p>
           <button
             type="button"
             className="mt-3 text-accent"

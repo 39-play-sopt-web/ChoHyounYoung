@@ -23,9 +23,10 @@ function DetailPage() {
     queryFn: ({ signal }) => getMovieDetail(id, signal),
     enabled: hasApiKey && isValidId,
   });
+  const errorMessage = error ? getApiErrorMessage(error) : null;
 
   // 데이터가 없는 동안에는 상세 화면 대신 로딩·오류 상태를 표시
-  if (!isValidId || !hasApiKey || isPending || error || !data) {
+  if (!isValidId || !hasApiKey || isPending || errorMessage || !data) {
     return (
       <main className="mx-auto max-w-[1044px] px-5 py-8">
         <Link to="/" className="text-xs text-accent no-underline">
@@ -37,9 +38,9 @@ function DetailPage() {
           </p>
         ) : !hasApiKey ? (
           <ApiKeyNotice />
-        ) : error ? (
+        ) : errorMessage ? (
           <div role="alert" className="py-12">
-            <p>{getApiErrorMessage(error)}</p>
+            <p>{errorMessage}</p>
             <button
               type="button"
               className="mt-3 text-accent"
