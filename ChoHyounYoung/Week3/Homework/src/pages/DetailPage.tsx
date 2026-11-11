@@ -7,9 +7,24 @@ import ApiKeyNotice from '../components/ApiKeyNotice';
 import DetailCard from '../components/DetailCard';
 import DetailChip from '../components/DetailChip';
 import starIcon from '../assets/star_s.svg';
+import type { ReactNode } from 'react';
+import { ROUTES } from '../constants/routes';
+
+const languageNames = new Intl.DisplayNames(['ko'], { type: 'language' });
 
 const formatMoney = (amount: number) =>
   amount > 0 ? `$${amount.toLocaleString('en-US')}` : '정보 없음';
+
+function DetailStatus({ children }: { children: ReactNode }) {
+  return (
+    <main className="mx-auto max-w-[1044px] px-5 py-8">
+      <Link to={ROUTES.home} className="text-xs text-accent no-underline">
+        ← 목록으로 돌아가기
+      </Link>
+      {children}
+    </main>
+  );
+}
 
 function DetailPage() {
   // URL의 movieId로 해당 영화만 조회하고, ID가 바뀌면 새로 요청
@@ -25,38 +40,50 @@ function DetailPage() {
   });
   const errorMessage = error ? getApiErrorMessage(error) : null;
 
-  // 데이터가 없는 동안에는 상세 화면 대신 로딩·오류 상태를 표시
-  if (!isValidId || !hasApiKey || isPending || errorMessage || !data) {
+  if (!isValidId) {
     return (
-      <main className="mx-auto max-w-[1044px] px-5 py-8">
-        <Link to="/" className="text-xs text-accent no-underline">
-          ← 목록으로 돌아가기
-        </Link>
-        {!isValidId ? (
-          <p role="alert" className="py-12">
-            올바르지 않은 영화 ID입니다.
-          </p>
-        ) : !hasApiKey ? (
-          <ApiKeyNotice />
-        ) : errorMessage ? (
-          <div role="alert" className="py-12">
-            <p>{errorMessage}</p>
-            <button
-              type="button"
-              className="mt-3 text-accent"
-              onClick={() => {
-                void refetch();
-              }}
-            >
-              다시 시도
-            </button>
-          </div>
-        ) : (
-          <p role="status" className="py-12">
-            영화 정보를 불러오는 중입니다...
-          </p>
-        )}
-      </main>
+      <DetailStatus>
+        <p role="alert" className="py-12">
+          올바르지 않은 영화 ID입니다.
+        </p>
+      </DetailStatus>
+    );
+  }
+
+  if (!hasApiKey) {
+    return (
+      <DetailStatus>
+        <ApiKeyNotice />
+      </DetailStatus>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <DetailStatus>
+        <div role="alert" className="py-12">
+          <p>{errorMessage}</p>
+          <button
+            type="button"
+            className="mt-3 text-accent"
+            onClick={() => {
+              void refetch();
+            }}
+          >
+            다시 시도
+          </button>
+        </div>
+      </DetailStatus>
+    );
+  }
+
+  if (isPending || !data) {
+    return (
+      <DetailStatus>
+        <p role="status" className="py-12">
+          영화 정보를 불러오는 중입니다...
+        </p>
+      </DetailStatus>
     );
   }
 
@@ -71,9 +98,7 @@ function DetailPage() {
     {
       label: '원어',
       value:
-        new Intl.DisplayNames(['ko'], { type: 'language' }).of(
-          movie.original_language
-        ) ?? movie.original_language,
+        languageNames.of(movie.original_language) ?? movie.original_language,
     },
     {
       label: '제작 국가',
@@ -94,7 +119,7 @@ function DetailPage() {
   return (
     <main className="mx-auto w-full max-w-[1044px] px-5 pt-[30px] pb-10">
       <Link
-        to="/"
+        to={ROUTES.home}
         className="text-xs font-medium tracking-[0.24px] text-accent no-underline"
       >
         ← 목록으로 돌아가기
